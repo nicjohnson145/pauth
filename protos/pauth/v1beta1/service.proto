@@ -1,0 +1,129 @@
+syntax = 'proto3';
+
+package pauth.v1beta1;
+
+import "pauth/v1beta1/struct.proto";
+import "buf/validate/validate.proto";
+import "google/protobuf/field_mask.proto";
+
+message PurgeRequest {}
+
+message PurgeResponse {}
+
+message CreateUserRequest {
+  User user = 1 [(buf.validate.field).required = true];
+  optional string password = 2;
+}
+
+message CreateUserResponse {
+  User user = 1;
+}
+
+message ListUsersRequest {}
+
+message ListUsersResponse {
+  repeated User users = 1;
+}
+
+message ReadUserReqeust {
+  optional string user_id = 1;
+}
+
+message ReadUserResponse {
+  User user = 1;
+}
+
+message SetUserPasswordRequest {
+  optional string user_id = 1;
+  string password = 2 [(buf.validate.field).required = true];
+}
+
+message SetUserPasswordResponse {}
+
+message UpdateUserRequest {
+  User user = 1 [
+    (buf.validate.field).required = true,
+    (buf.validate.field).cel = {
+      id: "UpdateUserRequest.user.id",
+      message: "user.id: value is required",
+      expression: "has(this.id)",
+    }
+  ];
+  google.protobuf.FieldMask field_mask = 2;
+}
+
+message UpdateUserResponse {}
+
+message DeleteUserRequest {
+  string user_id = 1 [(buf.validate.field).required = true];
+}
+
+message DeleteUserResponse {}
+
+message LoginRequest {
+  option (buf.validate.message).oneof = { fields: ["user_id", "email"], required: true };
+  optional string user_id = 1;
+  optional string email = 2;
+  string password = 3 [(buf.validate.field).required = true];
+}
+
+message LoginResponse {
+  string access_key = 1;
+}
+
+message ListUserRolesRequest {
+  optional string user_id = 1;
+}
+
+message ListUserRolesResponse {
+  repeated string roles = 1;
+}
+
+message GrantUserRoleRequest {
+  string user_id = 1 [(buf.validate.field).required = true];
+  string role = 2 [(buf.validate.field).required = true];
+}
+
+message GrantUserRoleResponse {}
+
+message RevokeUserRoleRequest {
+  string user_id = 1 [(buf.validate.field).required = true];
+  string role = 2 [(buf.validate.field).required = true];
+}
+
+message RevokeUserRoleResponse {}
+
+message IsKeyActiveRequest {
+  string access_key = 1 [(buf.validate.field).required = true];
+}
+
+message IsKeyActiveResponse {
+  bool active = 1;
+}
+
+service PAuthService {
+  // Purge purges all user information. Intended for functional tests, endpoint must be explicitly enabled
+  rpc Purge(PurgeRequest) returns (PurgeResponse);
+  // CreateUser provisions a user within the system
+  rpc CreateUser(CreateUserRequest) returns (CreateUserResponse);
+  // Read user reads the user in question, or the requesting user if no id is given
+  rpc ReadUser(ReadUserReqeust) returns (ReadUserResponse);
+  // ListUsers list all users within the system
+  rpc ListUsers(ListUsersRequest) returns (ListUsersResponse);
+  // SetUserPassword sets the password for the specified user, or for the requesting user if no id is given
+  rpc SetUserPassword(SetUserPasswordRequest) returns (SetUserPasswordResponse);
+  // UpdateUser updates the given users information
+  rpc UpdateUser(UpdateUserRequest) returns (UpdateUserResponse);
+  // DeleteUser permanently deletes the specified user
+  rpc DeleteUser(DeleteUserRequest) returns (DeleteUserResponse);
+  // Login logs a user in
+  rpc Login(LoginRequest) returns (LoginResponse);
+  // ListUserRoles lists the roles for the specified user, or for the requesting user if no id is specified
+  rpc ListUserRoles(ListUserRolesRequest) returns (ListUserRolesResponse);
+  // GrantUserRole grants the specified role to the specified user
+  rpc GrantUserRole(GrantUserRoleRequest) returns (GrantUserRoleResponse);
+  // RevokeUserRole revokes the specified role from the specified user
+  rpc RevokeUserRole(RevokeUserRoleRequest) returns (RevokeUserRoleResponse);
+  // IsKeyActive checks if the given key is a valid access key
+  rpc IsKeyActive(IsKeyActiveRequest) returns (IsKeyActiveResponse);
+}

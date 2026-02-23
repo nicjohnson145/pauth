@@ -1,0 +1,26 @@
+version: v2
+clean: true
+managed:
+  enabled: true
+  disable:
+  - file_option: go_package_prefix
+    module: buf.build/bufbuild/protovalidate
+  override:
+  - file_option: go_package_prefix
+    value: github.com/nicjohnson145/pauth/gen/go
+plugins:
+- remote: buf.build/connectrpc/go:v1.18.1
+  out: gen/go
+  opt:
+  - paths=source_relative
+- remote: buf.build/protocolbuffers/go:v1.36.6
+  out: gen/go
+  opt:
+  - paths=source_relative
+- local: protoc-gen-python_betterproto2
+  out: gen/python/src/pauth
+  opt: paths=source_relative
+  strategy: all
+- remote: buf.build/bufbuild/es:v2.11.0
+  out: gen/ecma
+  include_imports: true

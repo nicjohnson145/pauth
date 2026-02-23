@@ -1,0 +1,21 @@
+version: '3'
+
+
+tasks:
+  protos:
+    desc: generate protobuf shapes
+    cmds:
+    - uv run --with betterproto2_compiler==0.9.0 buf generate
+
+  service:
+    desc: run local copy of service
+    cmds:
+    - CGO_ENABLED=0 go build -o pauth-test-service ./internal/cmd
+    - ./pauth-test-service
+
+  functional-tests:
+    desc: run functional tests against a local instance
+    dir: ./functional-tests
+    cmds:
+    - uv run pytest -rF -v {{ .CLI_ARGS }}
+

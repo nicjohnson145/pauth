@@ -1,0 +1,12 @@
+version: v2
+deps:
+- buf.build/bufbuild/protovalidate:v1.0.0
+- buf.build/protocolbuffers/wellknowntypes:v33.5
+modules:
+- path: protos
+lint:
+  use:
+    - STANDARD
+breaking:
+  use:
+    - FILE

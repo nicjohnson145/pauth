@@ -1,0 +1,14 @@
+syntax = 'proto3';
+
+package pauth.v1beta1;
+
+message User {
+  // ID is the unique identifier for the user
+  string id = 1;
+  // Email is the optional email associated with the user, ex: john.smith@example.com
+  optional string email = 2;
+  // FullName is the optional name of the user, ex: "John Smith"
+  optional string full_name = 3;
+  // READONLY: Roles is the list of roles associated with this user, if any
+  repeated string roles = 4;
+}
