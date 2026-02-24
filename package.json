@@ -2,5 +2,11 @@
     "name": "pauth",
     "verison": "0.3.0",
     "type": "module",
-    "workspaces": ["gen/ecma"]
+    "exports": {
+        "./gen/ecma/buf/validate/*.js": "./gen/ecma/buf/validate/*.js",
+        "./gen/ecma/pauth/v1beta1/*.js": "./gen/ecma/pauth/v1beta1/*.js"
+    },
+    "dependencies": {
+        "@bufbuild/protobuf": "^2.11.0"
+    }
 }
