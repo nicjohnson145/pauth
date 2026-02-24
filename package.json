@@ -1,0 +1,6 @@
+{
+    "name": "pauth",
+    "verison": "0.3.0",
+    "type": "module",
+    "workspaces": ["gen/ecma"]
+}

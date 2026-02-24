@@ -1,8 +1,7 @@
 {
-  "name": "pauth",
-  "version": "0.2.0",
-  "type": "module",
-  "dependencies": {
-    "@bufbuild/protobuf": "^2.11.0"
-  }
+    "name": "pauth-gen",
+    "type": "module",
+    "dependencies": {
+        "@bufbuild/protobuf": "^2.11.0"
+    }
 }
