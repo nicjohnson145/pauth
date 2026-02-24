@@ -4,7 +4,9 @@
     "type": "module",
     "exports": {
         "./gen/ecma/buf/validate/*.js": "./gen/ecma/buf/validate/*.js",
-        "./gen/ecma/pauth/v1beta1/*.js": "./gen/ecma/pauth/v1beta1/*.js"
+        "./gen/ecma/buf/validate/*.d.ts": "./gen/ecma/buf/validate/*.d.ts",
+        "./gen/ecma/pauth/v1beta1/*.js": "./gen/ecma/pauth/v1beta1/*.js",
+        "./gen/ecma/pauth/v1beta1/*.d.ts": "./gen/ecma/pauth/v1beta1/*.d.ts"
     },
     "dependencies": {
         "@bufbuild/protobuf": "^2.11.0"
